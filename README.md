@@ -2,7 +2,8 @@
 Repository with postman collections to test the firely server
 
 # Test Execution
-    **Newman**
+The collection consists of tests for create endpoint and deletion of the created 
+# Newman
     Install recommended version of nodejs from https://nodejs.org/en
     Install newman: npm install -g newman
 
