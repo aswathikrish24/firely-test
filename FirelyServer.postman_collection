@@ -1,0 +1,1464 @@
+{
+	"info": {
+		"_postman_id": "0b6a3d75-029e-4382-88ac-c3180c7c5b07",
+		"name": "FirelyServer - Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13318539",
+		"_collection_link": "https://mindshift.postman.co/workspace/Team-Workspace~44af5572-a762-47ec-8964-0388add7a64a/collection/13318539-0b6a3d75-029e-4382-88ac-c3180c7c5b07?action=share&source=collection_link&creator=13318539"
+	},
+	"item": [
+		{
+			"name": "Create Patient",
+			"item": [
+				{
+					"name": "Verify if the system throws an error for invalid attributes and values",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that \r",
+									"                    the resource is not created\r",
+									"                    status is 400\r",
+									"                    Response has \r",
+									"                    resource type\r",
+									"                    severity\r",
+									"                    code error\r",
+									"                    text\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Operation outcome is displayed\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.resourceType).to.eql(\"OperationOutcome\");\r",
+									"});\r",
+									"pm.test(\"Error is displayed\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.issue[0].severity).to.eql(\"error\");\r",
+									"    pm.expect(jsonData.issue[0].details.text).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"{{resource_type}}\",\r\n    \"text\": {\r\n        \"status\": \"generated\",\r\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n\\t\\t\\t<table>\\n\\t\\t\\t\\t<tbody>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Name</td>\\n\\t\\t\\t\\t\\t\\t<td>Peter Pan \\n              <b>Granger</b> (&quot;Jim&quot;)\\n            </td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Address</td>\\n\\t\\t\\t\\t\\t\\t<td>534 Erewhon, Pleasantville, Vic, 3999</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Contacts</td>\\n\\t\\t\\t\\t\\t\\t<td>Home: unknown. Work: (03) 5555 6473</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Id</td>\\n\\t\\t\\t\\t\\t\\t<td>MRN: 12345 (Acme Healthcare)</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t</tbody>\\n\\t\\t\\t</table>\\n\\t\\t</div>\"\r\n    },\r\n    \"identifier\": [{\r\n        \"use\": \"usual\",\r\n        \"type\": {\r\n            \"coding\": [{\r\n                \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\r\n                \"code\": \"MR\"\r\n            }]\r\n        },\r\n        \"system\": \"urn:oid:1.2.36.146.595.217.0.1\",\r\n        \"value\": \"12345\",\r\n        \"period\": {\r\n            \"start\": \"2001-05-06\"\r\n        },\r\n        \"assigner\": {\r\n            \"display\": \"Acme Healthcare\"\r\n        }\r\n    }],\r\n    \"active\": {{is_active}},\r\n    \"name\": [{\r\n            \"use\": \"official\",\r\n            \"family\": \"Granger\",\r\n            \"given\": [\r\n                \"Peter\",\r\n                \"Pan\"\r\n            ]\r\n        },\r\n        {\r\n            \"use\": \"usual\",\r\n            \"given\": [\r\n                \"Jim\"\r\n            ]\r\n        },\r\n        {\r\n            \"use\": \"maiden\",\r\n            \"family\": \"Windsor\",\r\n            \"given\": [\r\n                \"Peter\",\r\n                \"Pan\"\r\n            ],\r\n            \"period\": {\r\n                \"end\": \"2002\"\r\n            }\r\n        }\r\n    ],\r\n    \"telecom\": [{\r\n            \"use\": \"home\"\r\n        },\r\n        {\r\n            \"system\": \"phone\",\r\n            \"value\": \"(03) 5555 6473\",\r\n            \"use\": \"work\",\r\n            \"rank\": 1\r\n        },\r\n        {\r\n            \"system\": \"phone\",\r\n            \"value\": \"(03) 3410 5613\",\r\n            \"use\": \"mobile\",\r\n            \"rank\": 2\r\n        },\r\n        {\r\n            \"system\": \"phone\",\r\n            \"value\": \"(03) 5555 8834\",\r\n            \"use\": \"old\",\r\n            \"period\": {\r\n                \"end\": \"2014\"\r\n            }\r\n        }\r\n    ],\r\n    \"gender\": \"{{patient_gender}}\",\r\n    \"birthDate\": \"1974-12-25\",\r\n    \"_birthDate\": {\r\n        \"extension\": [{\r\n            \"url\": \"http://hl7.org/fhir/StructureDefinition/patient-birthTime\",\r\n            \"valueDateTime\": \"1974-12-25T14:35:45-05:00\"\r\n        }]\r\n    },\r\n    \"deceasedBoolean\": false,\r\n    \"address\": [{\r\n        \"use\": \"home\",\r\n        \"type\": \"both\",\r\n        \"text\": \"534 Erewhon St PeasantVille, Rainbow, Vic  3999\",\r\n        \"line\": [\r\n            \"534 Erewhon St\"\r\n        ],\r\n        \"city\": \"PleasantVille\",\r\n        \"district\": \"Rainbow\",\r\n        \"state\": \"Vic\",\r\n        \"postalCode\": \"3999\",\r\n        \"period\": {\r\n            \"start\": \"1974-12-25\"\r\n        }\r\n    }],\r\n    \"contact\": [{\r\n        \"relationship\": [{\r\n            \"coding\": [{\r\n                \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0131\",\r\n                \"code\": \"N\"\r\n            }]\r\n        }],\r\n        \"name\": {\r\n            \"family\": \"du Marché\",\r\n            \"_family\": {\r\n                \"extension\": [{\r\n                    \"url\": \"http://hl7.org/fhir/StructureDefinition/humanname-own-prefix\",\r\n                    \"valueString\": \"VV\"\r\n                }]\r\n            },\r\n            \"given\": [\r\n                \"Bénédicte\"\r\n            ]\r\n        },\r\n        \"telecom\": [{\r\n            \"system\": \"phone\",\r\n            \"value\": \"+33 (237) 998327\"\r\n        }],\r\n        \"address\": {\r\n            \"use\": \"home\",\r\n            \"type\": \"both\",\r\n            \"line\": [\r\n                \"534 Erewhon St\"\r\n            ],\r\n            \"city\": \"PleasantVille\",\r\n            \"district\": \"Rainbow\",\r\n            \"state\": \"Vic\",\r\n            \"postalCode\": \"3999\",\r\n            \"period\": {\r\n                \"start\": \"1974-12-25\"\r\n            }\r\n        },\r\n        \"gender\": \"{{contact_gender}}\",\r\n        \"period\": {\r\n            \"start\": \"{{start_period}}\"\r\n        }\r\n    }],\r\n    \"managingOrganization\": {\r\n        \"reference\": \"Organization/1\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Patient",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify that the system throws an error found for an incorrect endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that \r",
+									"                        the resource is not created\r",
+									"                        status is 404\r",
+									"                        Response has \r",
+									"                        resource type\r",
+									"                        severity\r",
+									"                        code error\r",
+									"                        text\r",
+									"*/\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Error is displayed\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.issue[0].severity).to.eql(\"error\");\r",
+									"    pm.expect(jsonData.issue[0].details.text).to.include(\"Request for not-supported ResourceType(s)\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "patientData.json"
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Pat",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Pat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Patient with a correct payload and verify that the resource is created with id and meta properties",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that \r",
+									"                    the resource is created\r",
+									"                    status is 201\r",
+									"                    Response has id, meta\r",
+									"                    Header has etag, location and last modified\r",
+									"*/\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"patient_id_1\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response contains a valid patient ID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"id\").that.is.a(\"string\");\r",
+									"});\r",
+									"pm.test(\"Response contains a valid meta property\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.meta).to.have.property(\"versionId\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData.meta).to.have.property(\"lastUpdated\").that.is.a(\"string\");\r",
+									"});\r",
+									"pm.test(\"Valid Location header is present\", function () {\r",
+									"    pm.expect(pm.response.headers.has('Location')).to.be.true;\r",
+									"});\r",
+									"pm.test(\"Valid Etag header is present\", function () {\r",
+									"    pm.expect(pm.response.headers.has('Etag')).to.be.true;\r",
+									"});\r",
+									"pm.test(\"Valid Last-Modified header is present\", function () {\r",
+									"    pm.expect(pm.response.headers.has('Last-Modified')).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "patientData.json"
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Patient",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Patient with a correct payload and verify that the resource is created with valid schema",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that for a valid request,\r",
+									"                The schema matches with the request.\r",
+									"*/\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"patient_id_2\", jsonData.id);\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Verify that the resource is created with the correct schema\", function () {\r",
+									"    var schema = {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            resourceType: {\r",
+									"                type: \"string\"\r",
+									"            },\r",
+									"            text: {\r",
+									"                type: \"object\",\r",
+									"                properties: {\r",
+									"                    status: {\r",
+									"                        type: \"string\"\r",
+									"                    },\r",
+									"                    div: {\r",
+									"                        type: \"string\"\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            identifier: {\r",
+									"                type: \"array\",\r",
+									"                items: {\r",
+									"                    type: \"object\",\r",
+									"                    properties: {\r",
+									"                        use: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        type: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                coding: {\r",
+									"                                    type: \"array\",\r",
+									"                                    items: {\r",
+									"                                        type: \"object\",\r",
+									"                                        properties: {\r",
+									"                                            system: {\r",
+									"                                                type: \"string\"\r",
+									"                                            },\r",
+									"                                            code: {\r",
+									"                                                type: \"string\"\r",
+									"                                            }\r",
+									"                                        }\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        system: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        value: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        period: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                start: {\r",
+									"                                    type: \"string\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        assigner: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                display: {\r",
+									"                                    type: \"string\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            active: {\r",
+									"                type: \"boolean\"\r",
+									"            },\r",
+									"            name: {\r",
+									"                type: \"array\",\r",
+									"                items: {\r",
+									"                    type: \"object\",\r",
+									"                    properties: {\r",
+									"                        use: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        family: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        given: {\r",
+									"                            type: \"array\",\r",
+									"                            items: {\r",
+									"                                type: \"string\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            telecom: {\r",
+									"                type: \"array\",\r",
+									"                items: {\r",
+									"                    type: \"object\",\r",
+									"                    properties: {\r",
+									"                        use: {\r",
+									"                            type: \"string\"\r",
+									"                        }\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            gender: {\r",
+									"                type: \"string\"\r",
+									"            },\r",
+									"            birthDate: {\r",
+									"                type: \"string\"\r",
+									"            },\r",
+									"            _birthDate: {\r",
+									"                type: \"object\",\r",
+									"                properties: {\r",
+									"                    extension: {\r",
+									"                        type: \"array\",\r",
+									"                        items: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                url: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                valueDateTime: {\r",
+									"                                    type: \"string\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            deceasedBoolean: {\r",
+									"                type: \"boolean\"\r",
+									"            },\r",
+									"            address: {\r",
+									"                type: \"array\",\r",
+									"                items: {\r",
+									"                    type: \"object\",\r",
+									"                    properties: {\r",
+									"                        use: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        type: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        text: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        line: {\r",
+									"                            type: \"array\",\r",
+									"                            items: {\r",
+									"                                type: \"string\"\r",
+									"                            }\r",
+									"                        },\r",
+									"                        city: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        district: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        state: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        postalCode: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        period: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                start: {\r",
+									"                                    type: \"string\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            contact: {\r",
+									"                type: \"array\",\r",
+									"                items: {\r",
+									"                    type: \"object\",\r",
+									"                    properties: {\r",
+									"                        relationship: {\r",
+									"                            type: \"array\",\r",
+									"                            items: {\r",
+									"                                type: \"object\",\r",
+									"                                properties: {\r",
+									"                                    coding: {\r",
+									"                                        type: \"array\",\r",
+									"                                        items: {\r",
+									"                                            type: \"object\",\r",
+									"                                            properties: {\r",
+									"                                                system: {\r",
+									"                                                    type: \"string\"\r",
+									"                                                },\r",
+									"                                                code: {\r",
+									"                                                    type: \"string\"\r",
+									"                                                }\r",
+									"                                            }\r",
+									"                                        }\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        name: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                family: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                _family: {\r",
+									"                                    type: \"object\",\r",
+									"                                    properties: {\r",
+									"                                        extension: {\r",
+									"                                            type: \"array\",\r",
+									"                                            items: {\r",
+									"                                                type: \"object\",\r",
+									"                                                properties: {\r",
+									"                                                    url: {\r",
+									"                                                        type: \"string\"\r",
+									"                                                    },\r",
+									"                                                    valueString: {\r",
+									"                                                        type: \"string\"\r",
+									"                                                    }\r",
+									"                                                }\r",
+									"                                            }\r",
+									"                                        }\r",
+									"                                    }\r",
+									"                                },\r",
+									"                                given: {\r",
+									"                                    type: \"array\",\r",
+									"                                    items: {\r",
+									"                                        type: \"string\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        telecom: {\r",
+									"                            type: \"array\",\r",
+									"                            items: {\r",
+									"                                type: \"object\",\r",
+									"                                properties: {\r",
+									"                                    system: {\r",
+									"                                        type: \"string\"\r",
+									"                                    },\r",
+									"                                    value: {\r",
+									"                                        type: \"string\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        address: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                use: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                type: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                line: {\r",
+									"                                    type: \"array\",\r",
+									"                                    items: {\r",
+									"                                        type: \"string\"\r",
+									"                                    }\r",
+									"                                },\r",
+									"                                city: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                district: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                state: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                postalCode: {\r",
+									"                                    type: \"string\"\r",
+									"                                },\r",
+									"                                period: {\r",
+									"                                    type: \"object\",\r",
+									"                                    properties: {\r",
+									"                                        start: {\r",
+									"                                            type: \"string\"\r",
+									"                                        }\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        },\r",
+									"                        gender: {\r",
+									"                            type: \"string\"\r",
+									"                        },\r",
+									"                        period: {\r",
+									"                            type: \"object\",\r",
+									"                            properties: {\r",
+									"                                start: {\r",
+									"                                    type: \"string\"\r",
+									"                                }\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            managingOrganization: {\r",
+									"                type: \"object\",\r",
+									"                properties: {\r",
+									"                    reference: {\r",
+									"                        type: \"string\"\r",
+									"                    }\r",
+									"                }\r",
+									"            },\r",
+									"            id: {\r",
+									"                type: \"string\"\r",
+									"            },\r",
+									"            meta: {\r",
+									"                type: \"object\",\r",
+									"                properties: {\r",
+									"                    versionId: {\r",
+									"                        type: \"string\"\r",
+									"                    },\r",
+									"                    lastUpdated: {\r",
+									"                        type: \"string\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        },\r",
+									"        required: [\r",
+									"            \"resourceType\",\r",
+									"            \"text\",\r",
+									"            \"identifier\",\r",
+									"            \"active\",\r",
+									"            \"name\",\r",
+									"            \"telecom\",\r",
+									"            \"gender\",\r",
+									"            \"birthDate\",\r",
+									"            \"_birthDate\",\r",
+									"            \"deceasedBoolean\",\r",
+									"            \"address\",\r",
+									"            \"contact\",\r",
+									"            \"managingOrganization\",\r",
+									"            \"id\",\r",
+									"            \"meta\"\r",
+									"        ]\r",
+									"    };\r",
+									"\r",
+									"    pm.test(\"Schema is valid\", function () {\r",
+									"        pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "patientData.json"
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Patient",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Patient with a correct payload and verify that the resource is created with the requested data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that for a valid request,\r",
+									"                The data passed in the body of the request matches the response\r",
+									"*/\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"patient_id_3\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Response matches the request body\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.resourceType).to.eql(\"Patient\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "patientData.json"
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Patient",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new patient with an id and meta and verify if the system ignores the id and creates new",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that \r",
+									"                The resource is created with status 201\r",
+									"                The following properties do not match with the one given in the request:\r",
+									"                id, \r",
+									"                version id and last updated (in meta)\r",
+									"*/\r",
+									"let id = pm.environment.get(\"variable_key\");\r",
+									"let versionId = pm.environment.get(\"variable_key\");\r",
+									"let lastUpdatedTime = pm.environment.get(\"variable_key\");\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"patient_id_3\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Verify that a new id is generated and does not match the id given in the request\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.not.eql(id);\r",
+									"});\r",
+									"pm.test(\"Verify that a new version id and last updated time is generated and does not match the data given in the request\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.meta.versionId).to.not.eql(versionId);\r",
+									"    pm.expect(jsonData.meta.lastUpdated).to.not.eql(lastUpdatedTime);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"Patient\",\r\n    \"id\": \"{{id}}\",\r\n    \"meta\": {\r\n        \"versionId\": \"{{versionId}}\",\r\n        \"lastUpdated\": \"{{lastUpdated}}\"\r\n    },\r\n    \"text\": {\r\n        \"status\": \"generated\",\r\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n\\t\\t\\t<table>\\n\\t\\t\\t\\t<tbody>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Name</td>\\n\\t\\t\\t\\t\\t\\t<td>Peter Pan \\n              <b>Granger</b> (&quot;Jim&quot;)\\n            </td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Address</td>\\n\\t\\t\\t\\t\\t\\t<td>534 Erewhon, Pleasantville, Vic, 3999</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Contacts</td>\\n\\t\\t\\t\\t\\t\\t<td>Home: unknown. Work: (03) 5555 6473</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Id</td>\\n\\t\\t\\t\\t\\t\\t<td>MRN: 12345 (Acme Healthcare)</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t</tbody>\\n\\t\\t\\t</table>\\n\\t\\t</div>\"\r\n    },\r\n    \"identifier\": [{\r\n        \"use\": \"usual\",\r\n        \"type\": {\r\n            \"coding\": [{\r\n                \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\r\n                \"code\": \"MR\"\r\n            }]\r\n        },\r\n        \"system\": \"urn:oid:1.2.36.146.595.217.0.1\",\r\n        \"value\": \"12345\",\r\n        \"period\": {\r\n            \"start\": \"2001-05-06\"\r\n        },\r\n        \"assigner\": {\r\n            \"display\": \"Acme Healthcare\"\r\n        }\r\n    }],\r\n    \"active\": true,\r\n    \"name\": [{\r\n            \"use\": \"official\",\r\n            \"family\": \"Granger\",\r\n            \"given\": [\r\n                \"Peter\",\r\n                \"Pan\"\r\n            ]\r\n        },\r\n        {\r\n            \"use\": \"usual\",\r\n            \"given\": [\r\n                \"Jim\"\r\n            ]\r\n        },\r\n        {\r\n            \"use\": \"maiden\",\r\n            \"family\": \"Windsor\",\r\n            \"given\": [\r\n                \"Peter\",\r\n                \"Pan\"\r\n            ],\r\n            \"period\": {\r\n                \"end\": \"2002\"\r\n            }\r\n        }\r\n    ],\r\n    \"telecom\": [{\r\n            \"use\": \"home\"\r\n        },\r\n        {\r\n            \"system\": \"phone\",\r\n            \"value\": \"(03) 5555 6473\",\r\n            \"use\": \"work\",\r\n            \"rank\": 1\r\n        },\r\n        {\r\n            \"system\": \"phone\",\r\n            \"value\": \"(03) 3410 5613\",\r\n            \"use\": \"mobile\",\r\n            \"rank\": 2\r\n        },\r\n        {\r\n            \"system\": \"phone\",\r\n            \"value\": \"(03) 5555 8834\",\r\n            \"use\": \"old\",\r\n            \"period\": {\r\n                \"end\": \"2014\"\r\n            }\r\n        }\r\n    ],\r\n    \"gender\": \"male\",\r\n    \"birthDate\": \"1974-12-25\",\r\n    \"_birthDate\": {\r\n        \"extension\": [{\r\n            \"url\": \"http://hl7.org/fhir/StructureDefinition/patient-birthTime\",\r\n            \"valueDateTime\": \"1974-12-25T14:35:45-05:00\"\r\n        }]\r\n    },\r\n    \"deceasedBoolean\": false,\r\n    \"address\": [{\r\n        \"use\": \"home\",\r\n        \"type\": \"both\",\r\n        \"text\": \"534 Erewhon St PeasantVille, Rainbow, Vic  3999\",\r\n        \"line\": [\r\n            \"534 Erewhon St\"\r\n        ],\r\n        \"city\": \"PleasantVille\",\r\n        \"district\": \"Rainbow\",\r\n        \"state\": \"Vic\",\r\n        \"postalCode\": \"3999\",\r\n        \"period\": {\r\n            \"start\": \"1974-12-25\"\r\n        }\r\n    }],\r\n    \"contact\": [{\r\n        \"relationship\": [{\r\n            \"coding\": [{\r\n                \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0131\",\r\n                \"code\": \"N\"\r\n            }]\r\n        }],\r\n        \"name\": {\r\n            \"family\": \"du Marché\",\r\n            \"_family\": {\r\n                \"extension\": [{\r\n                    \"url\": \"http://hl7.org/fhir/StructureDefinition/humanname-own-prefix\",\r\n                    \"valueString\": \"VV\"\r\n                }]\r\n            },\r\n            \"given\": [\r\n                \"Bénédicte\"\r\n            ]\r\n        },\r\n        \"telecom\": [{\r\n            \"system\": \"phone\",\r\n            \"value\": \"+33 (237) 998327\"\r\n        }],\r\n        \"address\": {\r\n            \"use\": \"home\",\r\n            \"type\": \"both\",\r\n            \"line\": [\r\n                \"534 Erewhon St\"\r\n            ],\r\n            \"city\": \"PleasantVille\",\r\n            \"district\": \"Rainbow\",\r\n            \"state\": \"Vic\",\r\n            \"postalCode\": \"3999\",\r\n            \"period\": {\r\n                \"start\": \"1974-12-25\"\r\n            }\r\n        },\r\n        \"gender\": \"female\",\r\n        \"period\": {\r\n            \"start\": \"2012\"\r\n        }\r\n    }],\r\n    \"managingOrganization\": {\r\n        \"reference\": \"Organization/1\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/Patient",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Observation",
+			"item": [
+				{
+					"name": "Create new observation with a valid payload and verify that the resource is created with id and meta properties",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that for a valid request,\r",
+									"                The data passed in the body of the request matches the response\r",
+									"                the resource is created\r",
+									"                status is 201\r",
+									"                Response has id, meta\r",
+									"                Header has etag, location and last modified\r",
+									"*/\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"observation_id\", jsonData.id);\r",
+									"let resourceType = pm.environment.get(\"resourceType\");\r",
+									"let observation = pm.environment.get(\"observation\");\r",
+									"let value_quantity = pm.environment.get(\"value_quantity\");\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that the observation matches the resource type\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.resourceType).to.eql(resourceType);\r",
+									"});\r",
+									"pm.test(\"Verify that the observation matches the observation type\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.code.coding[0].display).to.eql(observation);\r",
+									"});\r",
+									"pm.test(\"Verify that the observation matches the quantity\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.valueQuantity.value).to.eql(parseFloat(value_quantity));\r",
+									"});\r",
+									"pm.test(\"Response contains a valid observation ID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"id\").that.is.a(\"string\");\r",
+									"});\r",
+									"pm.test(\"Response contains a valid meta property\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.meta).to.have.property(\"versionId\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData.meta).to.have.property(\"lastUpdated\").that.is.a(\"string\");\r",
+									"});\r",
+									"pm.test(\"Valid Location header is present\", function () {\r",
+									"    pm.expect(pm.response.headers.has('Location')).to.be.true;\r",
+									"});\r",
+									"pm.test(\"Valid Etag header is present\", function () {\r",
+									"    pm.expect(pm.response.headers.has('Etag')).to.be.true;\r",
+									"});\r",
+									"pm.test(\"Valid Last-Modified header is present\", function () {\r",
+									"    pm.expect(pm.response.headers.has('Last-Modified')).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"{{resourceType}}\",\r\n    \"text\": {\r\n      \"status\": \"generated\",\r\n      \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 6323 (OFFICIAL)</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>P. van de Heuvel</a></p><p><b>effective</b>: 02/04/2013 9:30:10 AM --&gt; (ongoing)</p><p><b>issued</b>: 03/04/2013 3:30:10 PM</p><p><b>performer</b>: <a>A. Langeveld</a></p><p><b>value</b>: 6.3 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></p><p><b>interpretation</b>: High <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation code 'H' = 'High', given as 'High'})</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td><td><b>Low</b></td><td><b>High</b></td></tr><tr><td>*</td><td>3.1 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td><td>6.2 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td></tr></table></div>\"\r\n    },\r\n    \"identifier\": [\r\n      {\r\n        \"use\": \"official\",\r\n        \"system\": \"http://www.bmc.nl/zorgportal/identifiers/observations\",\r\n        \"value\": \"6323\"\r\n      }\r\n    ],\r\n    \"status\": \"final\",\r\n    \"code\": {\r\n      \"coding\": [\r\n        {\r\n          \"system\": \"http://loinc.org\",\r\n          \"code\": \"15074-8\",\r\n          \"display\": \"{{observation}}\"\r\n        }\r\n      ]\r\n    },\r\n    \"subject\": {\r\n      \"reference\": \"Patient/{{patient_id}}\",\r\n      \"display\": \"P. van de Heuvel\"\r\n    },\r\n    \"effectivePeriod\": {\r\n      \"start\": \"2013-04-02T09:30:10+01:00\"\r\n    },\r\n    \"issued\": \"2013-04-03T15:30:10+01:00\",\r\n    \"performer\": [\r\n      {\r\n        \"reference\": \"Practitioner/f005\",\r\n        \"display\": \"A. Langeveld\"\r\n      }\r\n    ],\r\n    \"valueQuantity\": {\r\n      \"value\": {{value_quantity}},\r\n      \"unit\": \"mmol/l\",\r\n      \"system\": \"http://unitsofmeasure.org\",\r\n      \"code\": \"mmol/L\"\r\n    },\r\n    \"interpretation\": [\r\n      {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation\",\r\n            \"code\": \"H\",\r\n            \"display\": \"High\"\r\n          }\r\n        ]\r\n      }\r\n    ],\r\n    \"referenceRange\": [\r\n      {\r\n        \"low\": {\r\n          \"value\": 3.1,\r\n          \"unit\": \"mmol/l\",\r\n          \"system\": \"http://unitsofmeasure.org\",\r\n          \"code\": \"mmol/L\"\r\n        },\r\n        \"high\": {\r\n          \"value\": 6.2,\r\n          \"unit\": \"mmol/l\",\r\n          \"system\": \"http://unitsofmeasure.org\",\r\n          \"code\": \"mmol/L\"\r\n        }\r\n      }\r\n    ]\r\n  }"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{resourceType}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{resourceType}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify if the system throws an error for invalid attributes and values",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that \r",
+									"                    the resource is not created\r",
+									"                    status is 400\r",
+									"                    Response has \r",
+									"                    resource type\r",
+									"                    severity\r",
+									"                    code error\r",
+									"                    text\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Operation outcome is displayed\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.resourceType).to.eql(\"OperationOutcome\");\r",
+									"});\r",
+									"pm.test(\"Error is displayed\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.issue[0].severity).to.eql(\"error\");\r",
+									"    pm.expect(jsonData.issue[0].details.text).to.exist;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"Observation\",\r\n    \"text\": {\r\n      \"status\": \"generated\",\r\n      \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 6323 (OFFICIAL)</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>P. van de Heuvel</a></p><p><b>effective</b>: 02/04/2013 9:30:10 AM --&gt; (ongoing)</p><p><b>issued</b>: 03/04/2013 3:30:10 PM</p><p><b>performer</b>: <a>A. Langeveld</a></p><p><b>value</b>: 6.3 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></p><p><b>interpretation</b>: High <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation code 'H' = 'High', given as 'High'})</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td><td><b>Low</b></td><td><b>High</b></td></tr><tr><td>*</td><td>3.1 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td><td>6.2 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td></tr></table></div>\"\r\n    },\r\n    \"identifier\": [\r\n      {\r\n        \"use\": \"official\",\r\n        \"system\": \"http://www.bmc.nl/zorgportal/identifiers/observations\",\r\n        \"value\": \"6323\"\r\n      }\r\n    ],\r\n    \"status\": \"final\",\r\n    \"code\": {\r\n      \"coding\": [\r\n        {\r\n          \"system\": \"http://loinc.org\",\r\n          \"code\": \"15074-8\",\r\n          \"display\": \"Glucose [Moles/volume] in Blood\"\r\n        }\r\n      ]\r\n    },\r\n    \"subject\": {\r\n      \"reference\": \"Patient/f001\",\r\n      \"display\": \"P. van de Heuvel\"\r\n    },\r\n    \"effectivePeriod\": {\r\n      \"start\": \"\"\r\n    },\r\n    \"issued\": \"2013-04-03T15:30:10+01:00\",\r\n    \"performer\": [\r\n      {\r\n        \"reference\": \"Practitioner/f005\",\r\n        \"display\": \"A. Langeveld\"\r\n      }\r\n    ],\r\n    \"valueQuantity\": {\r\n      \"value\": 6.3,\r\n      \"unit\": \"mmol/l\",\r\n      \"system\": \"http://unitsofmeasure.org\",\r\n      \"code\": \"mmol/L\"\r\n    },\r\n    \"interpretation\": [\r\n      {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation\",\r\n            \"code\": \"H\",\r\n            \"display\": \"sdsad\"\r\n          }\r\n        ]\r\n      }\r\n    ],\r\n    \"referenceRanges\": [\r\n      {\r\n        \"low\": {\r\n          \"value\": 3.1,\r\n          \"unit\": \"mmol/l\",\r\n          \"system\": \"http://unitsofmeasure.org\",\r\n          \"code\": \"mmol/L\"\r\n        },\r\n        \"high\": {\r\n          \"value\": 6.2,\r\n          \"unit\": \"mmol/l\",\r\n          \"system\": \"http://unitsofmeasure.org\",\r\n          \"code\": \"mmol/L\"\r\n        }\r\n      }\r\n    ]\r\n  }"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{resourceType}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{resourceType}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify if the system throws an error for invalid endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that \r",
+									"                        the resource is not created\r",
+									"                        status is 404\r",
+									"                        Response has \r",
+									"                        resource type\r",
+									"                        severity\r",
+									"                        code error\r",
+									"                        text\r",
+									"*/\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Error is displayed\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.issue[0].severity).to.eql(\"error\");\r",
+									"    pm.expect(jsonData.issue[0].details.text).to.include(\"Request for not-supported ResourceType(s)\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "observationData.json"
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{resourceType",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{resourceType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new observation with an id and meta and verify if the system ignores the id and creates new",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*Test Case : Verify that \r",
+									"                The resource is created with status 201\r",
+									"                The following properties do not match with the one given in the request:\r",
+									"                id, \r",
+									"                version id and last updated (in meta)\r",
+									"*/\r",
+									"let id = pm.environment.get(\"variable_key\");\r",
+									"let versionId = pm.environment.get(\"variable_key\");\r",
+									"let lastUpdatedTime = pm.environment.get(\"variable_key\");\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"observation_id_2\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Verify that a new id is generated and does not match the id given in the request\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.not.eql(id);\r",
+									"});\r",
+									"pm.test(\"Verify that a new version id and last updated time is generated and does not match the data given in the request\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.meta.versionId).to.not.eql(versionId);\r",
+									"    pm.expect(jsonData.meta.lastUpdated).to.not.eql(lastUpdatedTime);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"Observation\",\r\n    \"id\": \"{{id}}\",\r\n    \"meta\": {\r\n        \"versionId\": \"{{versionId}}\",\r\n        \"lastUpdated\": \"{{lastUpdated}}\"\r\n    },\r\n    \"text\": {\r\n      \"status\": \"generated\",\r\n      \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 6323 (OFFICIAL)</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>P. van de Heuvel</a></p><p><b>effective</b>: 02/04/2013 9:30:10 AM --&gt; (ongoing)</p><p><b>issued</b>: 03/04/2013 3:30:10 PM</p><p><b>performer</b>: <a>A. Langeveld</a></p><p><b>value</b>: 6.3 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></p><p><b>interpretation</b>: High <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation code 'H' = 'High', given as 'High'})</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td><td><b>Low</b></td><td><b>High</b></td></tr><tr><td>*</td><td>3.1 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td><td>6.2 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td></tr></table></div>\"\r\n    },\r\n    \"identifier\": [\r\n      {\r\n        \"use\": \"official\",\r\n        \"system\": \"http://www.bmc.nl/zorgportal/identifiers/observations\",\r\n        \"value\": \"6323\"\r\n      }\r\n    ],\r\n    \"status\": \"final\",\r\n    \"code\": {\r\n      \"coding\": [\r\n        {\r\n          \"system\": \"http://loinc.org\",\r\n          \"code\": \"15074-8\",\r\n          \"display\": \"Glucose [Moles/volume] in Blood\"\r\n        }\r\n      ]\r\n    },\r\n    \"subject\": {\r\n      \"reference\": \"Patient/f001\",\r\n      \"display\": \"P. van de Heuvel\"\r\n    },\r\n    \"effectivePeriod\": {\r\n      \"start\": \"\"\r\n    },\r\n    \"issued\": \"2013-04-03T15:30:10+01:00\",\r\n    \"performer\": [\r\n      {\r\n        \"reference\": \"Practitioner/f005\",\r\n        \"display\": \"A. Langeveld\"\r\n      }\r\n    ],\r\n    \"valueQuantity\": {\r\n      \"value\": 6.3,\r\n      \"unit\": \"mmol/l\",\r\n      \"system\": \"http://unitsofmeasure.org\",\r\n      \"code\": \"mmol/L\"\r\n    },\r\n    \"interpretation\": [\r\n      {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation\",\r\n            \"code\": \"H\",\r\n            \"display\": \"sdsad\"\r\n          }\r\n        ]\r\n      }\r\n    ],\r\n    \"referenceRange\": [\r\n      {\r\n        \"low\": {\r\n          \"value\": 3.1,\r\n          \"unit\": \"mmol/l\",\r\n          \"system\": \"http://unitsofmeasure.org\",\r\n          \"code\": \"mmol/L\"\r\n        },\r\n        \"high\": {\r\n          \"value\": 6.2,\r\n          \"unit\": \"mmol/l\",\r\n          \"system\": \"http://unitsofmeasure.org\",\r\n          \"code\": \"mmol/L\"\r\n        }\r\n      }\r\n    ]\r\n  }"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/{{resourceType}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{resourceType}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete Resources",
+			"item": [
+				{
+					"name": "Delete all the patients created during the test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/Patient/{{patient_id_1}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient",
+								"{{patient_id_1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all the patients created during the test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/Patient/{{patient_id_2}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient",
+								"{{patient_id_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all the patients created during the test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/Patient/{{patient_id_3}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Patient",
+								"{{patient_id_3}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the observation 1 created during the test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/Observation/{{observation_id}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Observation",
+								"{{observation_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the observation 2 created during the test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/Observation/{{observation_id_2}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"Observation",
+								"{{observation_id_2}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "https://server.fire.ly/R4",
+			"type": "string"
+		}
+	]
+}
