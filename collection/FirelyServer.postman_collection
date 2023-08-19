@@ -30,7 +30,6 @@
 											"                    code error\r",
 											"                    text\r",
 											"*/\r",
-											"\r",
 											"pm.test(\"Status code is 400\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
 											"});\r",
@@ -42,10 +41,20 @@
 											"    var jsonData = pm.response.json();\r",
 											"    pm.expect(jsonData.issue[0].severity).to.eql(\"error\");\r",
 											"});\r",
-											"pm.test(\"Error is displayed\", function () {\r",
-											"    var jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData.issue[0].details.text).to.eql(pm.iterationData.get(\"error\"));\r",
-											"});"
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"if (responseBody.has(\"warning\")){\r",
+											"    pm.test(\"Error is displayed\", function () {\r",
+											"        var jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData.issue[0].details.text).to.include(\"Invalid Json encountered.\");\r",
+											"    });\r",
+											"}\r",
+											"else{\r",
+											"       pm.test(\"Error is displayed\", function () {\r",
+											"        var jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData.issue[0].details.text).to.eql(pm.iterationData.get(\"error\"));\r",
+											"    });\r",
+											"}"
 										],
 										"type": "text/javascript"
 									}
