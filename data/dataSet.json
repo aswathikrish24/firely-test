@@ -1,0 +1,42 @@
+[
+    {
+        "resource_type": "Patiet",
+        "is_active":"true",
+        "patient_gender": "male",
+        "contact_gender": "female",
+        "start_period":"2012"
+
+    },
+    {
+        "resource_type": "Patient",
+        "is_active":"true",
+        "patient_gender": "mal",
+        "contact_gender": "female",
+        "start_period":"2012"
+
+    },
+    {
+        "resource_type": "Patient",
+        "is_active":"true",
+        "patient_gender": "male",
+        "contact_gender": "femal",
+        "start_period":"2012"
+
+    },
+    {
+        "resource_type": "Patient",
+        "is_active":"true",
+        "patient_gender": "male",
+        "contact_gender": "female",
+        "start_period":"20128"
+
+    },
+    {
+        "resource_type": "Patient",
+        "is_active":"0",
+        "patient_gender": "male",
+        "contact_gender": "female",
+        "start_period":"20128"
+
+    }
+]
