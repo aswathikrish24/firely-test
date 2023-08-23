@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master       
-      - name: Run postman tests in a collection with newman action
+
       - uses: matt-ball/newman-action@master
         with:
           workingDir: data
@@ -27,7 +27,6 @@ jobs:
           environment: environment\firely.postman_environment.json
           reporters: cli
 
-      - name: Run a collection folder with a data set
       - uses: matt-ball/newman-action@master
         with:
           folder: Invalid_data_collection
