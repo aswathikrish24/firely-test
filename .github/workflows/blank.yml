@@ -28,6 +28,8 @@ jobs:
 
       - uses: matt-ball/newman-action@master
         with:
+          workingDir: data
           folder: Invalid_data_collection
           collection: collection/FirelyServer.postman_collection
+          iterationCount: 5
           iterationData: data/dataSet.json
