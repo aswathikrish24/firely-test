@@ -32,4 +32,4 @@ jobs:
           folder: Invalid_data_collection
           collection: collection/FirelyServer.postman_collection
           iterationCount: 5
-          iterationData: dataSet.json
+          iterationData: data/dataSet.json
