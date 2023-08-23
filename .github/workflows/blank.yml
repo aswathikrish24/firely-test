@@ -23,13 +23,11 @@ jobs:
       - uses: matt-ball/newman-action@master
         with:
           workingDir: data
-          collection: collection/FirelyServer.postman_collection.json
+          collection: collection/FirelyServer.postman_collection
           environment: environment/firely.postman_environment.json
-          reporters: cli
 
       - uses: matt-ball/newman-action@master
         with:
           folder: Invalid_data_collection
-          collection: collection/FirelyServer.postman_collection.json
+          collection: collection/FirelyServer.postman_collection
           iterationData: data/dataSet.json
-          reporters: cli
